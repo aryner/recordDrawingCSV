@@ -22,6 +22,13 @@ def hasImgExt(name):
     return True
   return False
 
+def doesNotHaveCSV(f,files):
+  base = f[:-3].lower()
+  for ff in files:
+    if ff.lower() == '%s%s'%(base,'csv'):
+      return False
+  return True
+
 def showImgForDrawing(img):
   result = True
   cv2.namedWindow('image')
@@ -40,13 +47,15 @@ for dirname, dirnames, filenames in os.walk(directory):
   files = filenames
 
 for f in files:
-  if hasImgExt(f):
+  if hasImgExt(f) and doesNotHaveCSV(f,files):
     fileName = '%s%s'%(directory,f)
     csv = open('%s%s'%(fileName[:-3],'csv'), 'w')
     csv.write('x, y\n')
     img = cv2.imread(fileName)
     cont = showImgForDrawing(img)
     csv.close()
+  elif hasImgExt(f):
+    print '%s already has a csv file'%f
   else:
     print '%s does not have a jpg extension'%f
 

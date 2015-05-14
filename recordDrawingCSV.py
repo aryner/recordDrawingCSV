@@ -58,9 +58,11 @@ for f in files:
     csv.write('x, y\n')
     img = cv2.imread(fileName)
     cont = showImgForDrawing(img)
-    csv.close()
     if not cont:
+      os.remove('%s%s'%(fileName[:-3],'csv'))
+      csv.close()
       break
+    csv.close()
   elif hasImgExt(f):
     print '%s already has a csv file'%f
   else:

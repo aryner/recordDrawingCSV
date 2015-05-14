@@ -4,15 +4,18 @@ import sys
 import numpy as np
 
 mouseDown = False
+csv = None
 
 def draw(event,x,y,flags,param):
   global mouseDown
+  global csv
   if event == cv2.EVENT_LBUTTONDOWN:
     mouseDown = True
   if event == cv2.EVENT_LBUTTONUP:
     mouseDown = False
   if mouseDown:
     cv2.circle(img,(x,y),2,(255,0,0),-1)
+    csv.write('(%d %d),'%(x,y))
 
 def hasImgExt(name):
   if '.jpg' in name.lower():
@@ -36,9 +39,13 @@ files = []
 for dirname, dirnames, filenames in os.walk(directory):
   files = filenames
 
-for i in range(len(files)):
-  if hasImgExt(files[i]):
-    img = cv2.imread('%s%s'%(directory,files[i]))
+for f in files:
+  if hasImgExt(f):
+    fileName = '%s%s'%(directory,f)
+    csv = open('%s%s'%(fileName[:-3],'csv'), 'w')
+    img = cv2.imread(fileName)
     cont = showImgForDrawing(img)
+    csv.close()
   else:
     print '%s does not have a jpg extension'%f
+

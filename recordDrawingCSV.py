@@ -15,7 +15,7 @@ def draw(event,x,y,flags,param):
     mouseDown = False
   if mouseDown:
     cv2.circle(img,(x,y),2,(255,0,0),-1)
-    csv.write('(%d %d),'%(x,y))
+    csv.write('%d, %d\n'%(x,y))
 
 def hasImgExt(name):
   if '.jpg' in name.lower():
@@ -43,6 +43,7 @@ for f in files:
   if hasImgExt(f):
     fileName = '%s%s'%(directory,f)
     csv = open('%s%s'%(fileName[:-3],'csv'), 'w')
+    csv.write('x, y\n')
     img = cv2.imread(fileName)
     cont = showImgForDrawing(img)
     csv.close()

@@ -35,9 +35,14 @@ def showImgForDrawing(img):
   cv2.setMouseCallback('image',draw)
 
   while(1):
-      cv2.imshow('image',img)
-      if cv2.waitKey(20) & 0xFF == 27:
-          break
+    cv2.imshow('image',img)
+    key = cv2.waitKey(20) & 0xFF
+    if key == 27:
+      result = False
+      break
+    if key == 3:
+      result = True
+      break
   cv2.destroyAllWindows()
   return result
 
@@ -54,6 +59,8 @@ for f in files:
     img = cv2.imread(fileName)
     cont = showImgForDrawing(img)
     csv.close()
+    if not cont:
+      break
   elif hasImgExt(f):
     print '%s already has a csv file'%f
   else:

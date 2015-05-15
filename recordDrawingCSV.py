@@ -47,6 +47,10 @@ def showImgForDrawing(img):
   return result
 
 directory = sys.argv[1]
+scale = 1
+if len(sys.argv) > 2 :
+  scale = float(sys.argv[2])
+
 files = []
 for dirname, dirnames, filenames in os.walk(directory):
   files = filenames
@@ -57,6 +61,9 @@ for f in files:
     csv = open('%s%s'%(fileName[:-3],'csv'), 'w')
     csv.write('x, y\n')
     img = cv2.imread(fileName)
+    if scale < 1:
+      print 'in if'
+      img = cv2.resize(img,None,fx=scale, fy=scale, interpolation = cv2.INTER_AREA)
     cont = showImgForDrawing(img)
     if not cont:
       os.remove('%s%s'%(fileName[:-3],'csv'))

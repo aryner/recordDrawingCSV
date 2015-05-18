@@ -5,17 +5,20 @@ import numpy as np
 
 mouseDown = False
 csv = None
+scale = 1
 
 def draw(event,x,y,flags,param):
   global mouseDown
   global csv
+  global scale
   if event == cv2.EVENT_LBUTTONDOWN:
     mouseDown = True
   if event == cv2.EVENT_LBUTTONUP:
     mouseDown = False
   if mouseDown:
     cv2.circle(img,(x,y),2,(255,0,0),-1)
-    csv.write('%d, %d\n'%(x,y))
+    reverseScale = 1/scale
+    csv.write('%d, %d\n'%((reverseScale*x),(reverseScale*y)))
 
 def hasImgExt(name):
   if '.jpg' in name.lower():
@@ -47,7 +50,6 @@ def showImgForDrawing(img):
   return result
 
 directory = sys.argv[1]
-scale = 1
 if len(sys.argv) > 2 :
   scale = float(sys.argv[2])
 

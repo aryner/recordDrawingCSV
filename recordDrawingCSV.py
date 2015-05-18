@@ -32,13 +32,13 @@ def doesNotHaveCSV(f,files):
       return False
   return True
 
-def showImgForDrawing(img):
+def showImgForDrawing(img,name):
   result = True
-  cv2.namedWindow('image')
-  cv2.setMouseCallback('image',draw)
+  cv2.namedWindow(f)
+  cv2.setMouseCallback(f,draw)
 
   while(1):
-    cv2.imshow('image',img)
+    cv2.imshow(name,img)
     key = cv2.waitKey(20) & 0xFF
     if key == 27:
       result = False
@@ -64,9 +64,8 @@ for f in files:
     csv.write('x, y\n')
     img = cv2.imread(fileName)
     if scale < 1:
-      print 'in if'
       img = cv2.resize(img,None,fx=scale, fy=scale, interpolation = cv2.INTER_AREA)
-    cont = showImgForDrawing(img)
+    cont = showImgForDrawing(img,f)
     if not cont:
       os.remove('%s%s'%(fileName[:-3],'csv'))
       csv.close()

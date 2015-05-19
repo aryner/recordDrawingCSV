@@ -10,6 +10,9 @@ def hasCSVExt(name):
   return False
 
 directory = sys.argv[1]
+scale = 1
+if len(sys.argv) > 2:
+ scale = float(sys.argv[2])
 files = []
 for dirname, dirnames, filenames in os.walk(directory):
   files = filenames
@@ -28,8 +31,9 @@ for f in files:
           point = (int(row[0].translate(None,''.join([',',' ']))),int(row[1]))
           points.append(point)
       img = cv2.imread(imgFile)
+      img = cv2.resize(img,None,fx=scale,fy=scale,interpolation=cv2.INTER_AREA)
       for point in points:
-        cv2.circle(img,(point[0],point[1]),2,(255,0,0),-1)
+        cv2.circle(img,(int(scale*point[0]),int(scale*point[1])),2,(255,0,0),-1)
       cv2.namedWindow(f)
       cv2.imshow(f,img)
       while(1):
@@ -37,3 +41,4 @@ for f in files:
         if key == 27:
           break
       cv2.destroyAllWindows()
+
